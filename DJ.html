@@ -113,4 +113,116 @@
         // Crear un elemento li por cada resultado de búsqueda
         results.forEach((result) => {
           const
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DJ Player</title>
+    <style>
+      /* Estilos para la lista de reproducción */
+      #playlist {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #playlist li {
+        margin: 5px 0;
+        padding: 5px;
+        background-color: #f6f6f6;
+        border-radius: 5px;
+      }
+
+      #playlist li:hover {
+        background-color: #ebebeb;
+      }
+
+      /* Estilos para el formulario de búsqueda */
+      #search-form {
+        display: flex;
+        margin: 20px 0;
+      }
+
+      #search-form input[type="text"] {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+
+      #search-form button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #search-form button:hover {
+        background-color: #3e8e41;
+      }
+
+      /* Estilos para el botón de eliminar */
+      .remove-btn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .remove-btn:hover {
+        background-color: #e53935;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>DJ Player</h1>
+
+    <!-- Formulario de búsqueda -->
+    <form id="search-form">
+      <label for="search-type">Tipo de búsqueda:</label>
+      <select id="search-type" name="search-type">
+        <option value="track">Canción</option>
+        <option value="album">Álbum</option>
+        <option value="artist">Artista</option>
+      </select>
+      <input type="text" id="search-input" name="search-input" placeholder="Buscar canción..." />
+      <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Lista de reproducción -->
+    <ul id="playlist"></ul>
+
+    <script>
+      // Clave de la API de Deezer
+      const apiKey = "TU_CLAVE_DE_API_AQUI";
+
+      // URL base de la API de Deezer
+      const apiUrl = "https://api.deezer.com/search";
+
+      const form = document.querySelector("#search-form");
+      const input = document.querySelector("#search-input");
+      const playlist = document.querySelector("#playlist");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const songName = input.value;
+        input.value = "";
+        const searchType = document.querySelector("#search-type").value;
+        const searchUrl = `${apiUrl}/${searchType}?q=${songName}&order=RANKING&limit=10&output=jsonp&callback=handleResponse`;
+
+        // Crear un script con la URL de búsqueda y agregarlo al documento
+        const script = document.createElement("script");
+        script.src = searchUrl;
+        document.body.appendChild(script);
+      });
+
+      // Función que se llamará cuando se complete la solicitud de búsqueda
+      function handleResponse(response) {
+        const results = response.data;
+
+        // Limpiar la lista de reproducción existente
+        playlist.innerHTML = "";
+
+       
 
